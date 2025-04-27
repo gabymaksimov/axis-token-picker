@@ -1,0 +1,108 @@
+<style>
+  body {
+    font-family: "Inter", sans-serif;
+    padding: 24px;
+    background-color: #f3f5f7;
+    div {
+      margin: 24px;
+    }
+  }
+
+  #questionButton {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+
+    /* Text */
+    font-size: 18px;
+    font-weight: 600;
+    color: #202020;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  #answerButton {
+    background-color: #ffffff;
+    border-color: aqua;
+    box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+
+    /* Text */
+    font-size: 18px;
+    font-weight: 600;
+    color: #202020;
+    text-align: left;
+    font-family: inherit;
+  }
+</style>
+
+<h1>Axis Token Picker</h1>
+<div id="questionLevel1" class="invisible">
+  <h3 id="" class="visible">What is the color used for?</h3>
+  <div id="answerLevel1" class="invisible">
+    <button id="answerButton" class="visible">Text</button>
+    <button id="answerButton" class="visible">Background</button>
+    <button id="answerButton" class="visible">Icon</button>
+    <button id="answerButton" class="visible">Border</button>
+    <button id="answerButton" class="visible">Data vis or Chart</button>
+    <button id="answerButton" class="visible">Shadow</button>
+  </div>
+</div>
+
+<div id="questionLevel2" class="invisible">
+  <h3 id="" class="visible">What kind of text?</h3>
+  <div id="answerLevel2" class="invisible">
+    <button id="answerButton" class="visible">Neutral</button>
+    <button id="answerButton" class="visible">Coloured</button>
+    <button id="answerButton" class="visible">Link</button>
+  </div>
+</div>
+
+<div id="questionLevel3" class="invisible">
+  <h3 id="" class="visible">What's the purpose of the text?</h3>
+  <div id="answerLevel3" class="invisible">
+    <button id="answerButton" class="visible">Default</button>
+    <button id="answerButton" class="visible">Subtle</button>
+    <button id="answerButton" class="visible">Disabled</button>
+    <button id="answerButton" class="visible">
+      Inversed (Used on bold backgrounds)
+    </button>
+  </div>
+
+  <div id="tokenOption" class=""invisible">
+  <div>--axis-color-background-brand-subtle-hover</div>
+</div>
+------
+<div id="level2" class="visible">
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+  <button id="questionButton" class="visible">
+    What is the color used for?
+  </button>
+</div>
+
+<script>
+  document.getElementById("questionButton").onclick = () => {
+    console.log("Dan sucks");
+  };
+
+  console.log("all my tokens");
+</script>
