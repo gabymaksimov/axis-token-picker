@@ -21,7 +21,7 @@
     font-family: inherit;
   }
 
-  #answerButton {
+  .answerButton {
     background-color: #ffffff;
     border-color: aqua;
     box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
@@ -56,12 +56,30 @@
     padding: 24px;
     width: 100%;
     margin: 0;
+    margin-bottom: 8px;
 
     font-size: 18px;
     font-weight: 600;
     color: #202020;
     text-align: left;
     font-family: inherit;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .selectedAnswer {
+    font-weight: 400;
+    font-size: 16px;
+    color: #202020;
+    margin: 0;
+    margin-bottom: 8px;
+  }
+  #backButton {
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    cursor: pointer;
   }
 </style>
 
@@ -71,77 +89,196 @@
 <!-- left side here -->
 <div id="outer" class="outer">
   <div id="left" class="">
+    <button id="backButton" class="hidden">Go Back</button>
     <div id="questionLevel1" class="visible nonClicableButtonQuestion">
-      <h3 id="" class="visible">What is the color used for?</h3>
+      <h3>
+        What is the color used for? <span class="selectedAnswer hidden"></span>
+      </h3>
+    </div>
+
+    <div id="questionLevel2" class="hidden nonClicableButtonQuestion">
+      <h3>What kind of text? <span class="selectedAnswer hidden"></span></h3>
+    </div>
+
+    <div id="questionLevel3" class="hidden nonClicableButtonQuestion">
+      <h3>
+        What's the purpose of the text?
+        <span class="selectedAnswer hidden"></span>
+      </h3>
     </div>
   </div>
 
   <!-- right side here -->
   <div id="right" class="">
     <div id="answerLevel1" class="visible">
-      <button id="answerButton" class="visible">Text</button>
-      <button id="answerButton" class="visible">Background</button>
-      <button id="answerButton" class="visible">Icon</button>
-      <button id="answerButton" class="visible">Border</button>
-      <button id="answerButton" class="visible">Data vis or Chart</button>
-      <button id="answerButton" class="visible">Shadow</button>
+      <button id="" class="answerButton">Text</button>
+      <button id="" class="answerButton">Background</button>
+      <button id="" class="answerButton">Icon</button>
+      <button id="" class="answerButton">Border</button>
+      <button id="" class="answerButton">Data vis or Chart</button>
+      <button id="" class="answerButton">Shadow</button>
+    </div>
+    <div id="answerLevel2" class="hidden">
+      <button id="" class="answerButton">Neutral</button>
+      <button id="" class="answerButton">Coloured</button>
+      <button id="" class="answerButton">Link</button>
+    </div>
+    <div id="answerLevel3" class="hidden">
+      <button id="" class="answerButton">Default</button>
+      <button id="" class="answerButton">Subtle</button>
+      <button id="" class="answerButton">Disabled</button>
+      <button id="" class="answerButton">
+        Inversed (Used on bold backgrounds)
+      </button>
     </div>
   </div>
 </div>
 
-<div id="questionLevel2" class="invisible">
-  <h3 id="" class="visible">What kind of text?</h3>
-  <div id="answerLevel2" class="invisible">
-    <button id="answerButton" class="visible">Neutral</button>
-    <button id="answerButton" class="visible">Coloured</button>
-    <button id="answerButton" class="visible">Link</button>
-  </div>
-</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    //question blocks
+    const questionLevel1 = document.getElementById("questionLevel1");
+    const questionLevel2 = document.getElementById("questionLevel2");
+    const questionLevel3 = document.getElementById("questionLevel3");
 
-<div id="questionLevel3" class="invisible">
-  <h3 id="" class="visible">What's the purpose of the text?</h3>
-  <div id="answerLevel3" class="invisible">
-    <button id="answerButton" class="visible">Default</button>
-    <button id="answerButton" class="visible">Subtle</button>
-    <button id="answerButton" class="visible">Disabled</button>
-    <button id="answerButton" class="visible">
-      Inversed (Used on bold backgrounds)
-    </button>
-  </div>
+    // answer blocks
+    const answerLevel1 = document.getElementById("answerLevel1");
+    const answerLevel2 = document.getElementById("answerLevel2");
+    const answerLevel3 = document.getElementById("answerLevel3");
+    // Back button
+    const backButton = document.getElementById("backButton");
 
-  <div id="tokenOption" class="invisible">
-    <div>--axis-color-background-brand-subtle-hover</div>
-  </div>
-  ------
-  <div id="level2" class="visible">
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-    <button id="questionButton" class="visible">
-      What is the color used for?
-    </button>
-  </div>
+    // --- Listen for selection in anser level 1 ---
+    if (answerLevel1) {
+      answerLevel1.addEventListener("click", function (event) {
+        if (event.target.classList.contains("answerButton")) {
+          console.log("Clicked an answer button in Level 1!");
 
-  <script>
-    document.getElementById("questionButton").onclick = () => {
-      console.log("Dan sucks");
-    };
+          // 1. Get the text from the button that was clicked
+          const selectedAnswerText = event.target.textContent;
+          console.log("Selected Text:", selectedAnswerText);
 
-    console.log("all my tokens");
-  </script>
-</div>
+          // 2. Find the span inside questionLevel1 to display the answer
+          // querySelector finds the FIRST element inside questionLevel1 that matches the CSS selector '.chosen-answer'
+          const question1AnswerSpan =
+            questionLevel1.querySelector(".selectedAnswer");
+          if (question1AnswerSpan) {
+            // Put the chosen text into that span
+            question1AnswerSpan.textContent = `- ${selectedAnswerText}`; // Add hyphen for clarity
+          } else {
+            console.error(
+              "Could not find the .selectedAnswer span in questionLevel1"
+            );
+          }
+
+          // 3. Hide the Level 1 Answer container
+          answerLevel1.classList.add("hidden");
+
+          // 4. Show Question 2 (if it exists)
+          if (questionLevel2) {
+            questionLevel2.classList.remove("hidden");
+          } else {
+            console.log("No Question Level 2 found.");
+          }
+
+          // 5. Show Answer Set 2 (if it exists)
+          if (answerLevel2) {
+            answerLevel2.classList.remove("hidden");
+          } else {
+            console.log("No Answer Level 2 found.");
+          }
+
+          // 6. Show the Back button (if it exists)
+          if (backButton) {
+            backButton.classList.remove("hidden");
+          }
+
+          // --- End Actions ---
+        }
+      });
+    } else {
+      console.error("Could not find element with ID 'answerLevel1'");
+    }
+
+    if (backButton) {
+      // Check if the back button element was found
+      backButton.addEventListener("click", () => {
+        // Log message to confirm the listener is running when clicked
+        console.log("Back button listener FIRED!");
+
+        // 1. Hide Question 2
+        if (questionLevel2) {
+          console.log("Attempting to hide Question Level 2");
+          questionLevel2.classList.add("hidden");
+          console.log(
+            "Q2 hidden class added?",
+            questionLevel2.classList.contains("hidden")
+          );
+        } else {
+          console.log("questionLevel2 element not found");
+        }
+
+        // 2. Hide Answer Set 2
+        if (answerLevel2) {
+          console.log("Attempting to hide Answer Level 2");
+          answerLevel2.classList.add("hidden");
+          console.log(
+            "A2 hidden class added?",
+            answerLevel2.classList.contains("hidden")
+          );
+        } else {
+          console.log("answerLevel2 element not found");
+        }
+
+        // 3. Clear and hide the selected answer text from Question 1's span
+        if (questionLevel1) {
+          const question1AnswerSpan =
+            questionLevel1.querySelector < HTMLSpanElement > ".selectedAnswer";
+          if (question1AnswerSpan) {
+            console.log("Attempting to clear & hide Q1 selected answer span");
+            question1AnswerSpan.textContent = ""; // Set text to empty string
+            question1AnswerSpan.classList.add("hidden"); // Hide the span again
+            console.log(
+              "Q1 Span text content:",
+              question1AnswerSpan.textContent
+            );
+          } else {
+            console.error(
+              "Could not find .selectedAnswer span within questionLevel1"
+            );
+          }
+        } else {
+          console.log(
+            "questionLevel1 element not found (for clearing/hiding span)"
+          );
+        }
+
+        // 4. Show Answer Set 1 again
+        if (answerLevel1) {
+          console.log("Attempting to show Answer Level 1");
+          answerLevel1.classList.remove("hidden");
+          console.log(
+            "A1 hidden class removed?",
+            !answerLevel1.classList.contains("hidden")
+          );
+        } else {
+          console.log("answerLevel1 element not found");
+        }
+
+        // 5. Hide the Back button itself
+        console.log("Attempting to hide Back button");
+        backButton.classList.add("hidden");
+        console.log(
+          "Back Button hidden class added?",
+          backButton.classList.contains("hidden")
+        );
+
+        // --- End Actions ---
+      });
+    } else {
+      console.error(
+        "Could not find element with ID 'backButton' to attach listener."
+      );
+    }
+  });
+</script>
