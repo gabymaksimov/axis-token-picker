@@ -109,33 +109,38 @@
     align-items: center;
   }
 
-  #backButton {
-    background-color: #562672;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    min-height: 48px;
-    min-width: 64px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-
-  #backbutton:hover {
-    background-color: #5a6268;
-  }
-
   .hidden {
     display: none;
   }
 
   .visible {
     display: block;
+  }
+
+  /* Reset button style */
+  #resetButton {
+    background-color: #ffffff;
+    color: #202020;
+    border: 1px solid #562672;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease,
+      border-color 0.3s ease;
+    margin-top: 0;
+    text-align: center;
+    width: 200px;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+
+  #resetButton:hover {
+    background-color: #ffffff;
+    border-color: #411d56;
+    box-shadow: 0px 2px 4px 0px rgba(32, 32, 32, 0.08);
   }
 
   /* Responsive adjustments for wider screens */
@@ -159,27 +164,26 @@
 
 <!-- title -->
 <h1>Axis Token Picker</h1>
-
+<button id="resetButton">Reset</button>
 <!-- left side here -->
 <div id="outer" class="outer">
   <div id="left">
-    <button id="backButton" class="hidden">Go Back</button>
     <div id="questionLevel1" class="visible nonClicableButtonQuestion">
-      <h3>
+      <h3 id="questionButton1">
         <span class="questionText">What is the color used for?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
     </div>
 
     <div id="questionLevel2" class="hidden nonClicableButtonQuestion">
-      <h3>
+      <h3 id="questionButton2">
         <span class="questionText"> What kind of text?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
     </div>
 
     <div id="questionLevel3" class="hidden nonClicableButtonQuestion">
-      <h3>
+      <h3 id="questionButton3">
         <span class="questionText">What's the purpose of the text?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
@@ -190,11 +194,6 @@
   <div id="right" class="">
     <div id="answerLevel1" class="visible">
       <button id="" class="answerButton">Text</button>
-      <button id="" class="answerButton">Background</button>
-      <button id="" class="answerButton">Icon</button>
-      <button id="" class="answerButton">Border</button>
-      <button id="" class="answerButton">Data vis or Chart</button>
-      <button id="" class="answerButton">Shadow</button>
     </div>
     <div id="answerLevel2" class="hidden">
       <button id="" class="answerButton">Neutral</button>
@@ -225,6 +224,11 @@
     const answerLevel2 = document.getElementById("answerLevel2");
     const answerLevel3 = document.getElementById("answerLevel3");
 
+    // --- Question Buttons (for Back functionality) ---
+    const questionButton1 = document.getElementById("questionButton1");
+    const questionButton2 = document.getElementById("questionButton2");
+    const questionButton3 = document.getElementById("questionButton3");
+
     // spans to show selected answers
     const question1AnswerSpan =
       questionLevel1?.querySelector(".selectedAnswer");
@@ -232,6 +236,8 @@
       questionLevel2?.querySelector(".selectedAnswer");
     const question3AnswerSpan =
       questionLevel3?.querySelector(".selectedAnswer");
+
+    const resetButton = document.getElementById("resetButton");
 
     // Helper function to manage visibility classes
     function setVisibility(element, show) {
@@ -246,95 +252,36 @@
       }
     }
 
-    // Back button
-    const backButton = document.getElementById("backButton");
+    let currentLevel = 1; // Keep track of the current question level
+    const answerContainer = document.getElementById("right"); //get the container element
 
-    // --- Listen for selection in answer level 1 ---
-    if (answerLevel1) {
-      answerLevel1.addEventListener("click", function (event) {
-        // check if clicked element is an answer button
-        if (event.target.classList.contains("answerButton")) {
-          const selectedAnswerText = event.target.textContent;
+    //Combined Event Listener for Answer Levels
+    answerContainer.addEventListener("click", function (event) {
+      const clickedElement = event.target;
+      if (clickedElement.classList.contains("answerButton")) {
+        const selectedAnswerText = clickedElement.textContent;
+        let targetQuestionSpan = null;
 
-          if (question1AnswerSpan) {
-            // Put the chosen text into that span
-            question1AnswerSpan.textContent = `- ${selectedAnswerText}`;
-            setVisibility(question1AnswerSpan, true);
-          } else {
-            console.error(
-              "Could not find the .selectedAnswer span in questionLevel1"
-            );
-          }
-
-          // Hide Level 1 answers
+        if (clickedElement.parentNode === answerLevel1) {
+          targetQuestionSpan = question1AnswerSpan;
           setVisibility(answerLevel1, false);
-          // Show Question 2
           setVisibility(questionLevel2, true);
-          // Show Level 2 answers
           setVisibility(answerLevel2, true);
-          // Show the Back button
-          setVisibility(backButton, true);
-        }
-      });
-    } else {
-      console.error("Could not find element with ID 'answerLevel1'");
-    }
-
-    // --- Event Listener for Level 2 Answers ---
-    if (answerLevel2) {
-      answerLevel2.addEventListener("click", function (event) {
-        if (event.target.classList.contains("answerButton")) {
-          const selectedAnswerText = event.target.textContent;
-
-          // Display the selected answer in Question 2's span
-          if (question2AnswerSpan) {
-            question2AnswerSpan.textContent = `- ${selectedAnswerText}`;
-            setVisibility(question2AnswerSpan, true);
-          } else {
-            console.error(
-              "Could not find the .selectedAnswer span in questionLevel2"
-            );
-          }
-
-          // Hide Level 2 answers
+          currentLevel = 2;
+        } else if (clickedElement.parentNode === answerLevel2) {
+          targetQuestionSpan = question2AnswerSpan;
           setVisibility(answerLevel2, false);
-          // Show Question 3
           setVisibility(questionLevel3, true);
-          // Show Level 3 answers
           setVisibility(answerLevel3, true);
-          // Keep Back button visible
-          setVisibility(backButton, true); // Ensure it stays visible
-        }
-      });
-    } else {
-      console.error("Could not find element with ID 'answerLevel2'");
-    }
-
-    // --- Event Listener for Level 3 Answers ---
-    if (answerLevel3) {
-      answerLevel3.addEventListener("click", function (event) {
-        if (event.target.classList.contains("answerButton")) {
-          const selectedAnswerText = event.target.textContent;
-
-          // Display the selected answer in Question 3's span
-          if (question3AnswerSpan) {
-            question3AnswerSpan.textContent = `- ${selectedAnswerText}`;
-            setVisibility(question3AnswerSpan, true);
-          } else {
-            console.error(
-              "Could not find the .selectedAnswer span in questionLevel3"
-            );
-          }
-
-          // Hide Level 3 answers (or perform final action)
+          currentLevel = 3;
+        } else if (clickedElement.parentNode === answerLevel3) {
+          targetQuestionSpan = question3AnswerSpan;
           setVisibility(answerLevel3, false);
-
-          // Example: Log the final selections or send data
           console.log("Final Selection Path:");
           console.log(
             "Level 1:",
             question1AnswerSpan?.textContent.substring(2)
-          ); // Remove '- '
+          );
           console.log(
             "Level 2:",
             question2AnswerSpan?.textContent.substring(2)
@@ -343,59 +290,63 @@
             "Level 3:",
             question3AnswerSpan?.textContent.substring(2)
           );
-
-          // Keep Back button visible for now, or hide if this is the end
-          // setVisibility(backButton, false);
         }
-      });
-    } else {
-      console.error("Could not find element with ID 'answerLevel3'");
-    }
 
-    // --- Event Listener for the Back Button ---
-    if (backButton) {
-      backButton.addEventListener("click", () => {
-        // Determine the current visible level by checking answer visibility
-        const isLevel3Visible =
-          !answerLevel3.classList.contains("hidden") ||
-          !questionLevel3.classList.contains("hidden");
-        const isLevel2Visible =
-          !answerLevel2.classList.contains("hidden") ||
-          !questionLevel2.classList.contains("hidden");
+        if (targetQuestionSpan) {
+          targetQuestionSpan.textContent = `- ${selectedAnswerText}`;
+          setVisibility(targetQuestionSpan, true);
+        }
+      }
+    });
 
-        // --- Actions for going back from Level 3 to Level 2 ---
-        if (isLevel3Visible) {
-          // Hide Level 3 question and answers
-          setVisibility(questionLevel3, false);
-          setVisibility(answerLevel3, false);
-          // Clear and hide Level 2 selected answer span
-          if (question2AnswerSpan) {
-            question2AnswerSpan.textContent = "";
-            setVisibility(question2AnswerSpan, false);
-          }
-          // Show Level 2 answers
-          setVisibility(answerLevel2, true);
-          // Keep Back button visible
-          setVisibility(backButton, true);
-        }
-        // --- Actions for going back from Level 2 to Level 1 ---
-        else if (isLevel2Visible) {
-          // Hide Level 2 question and answers
-          setVisibility(questionLevel2, false);
-          setVisibility(answerLevel2, false);
-          // Clear and hide Level 1 selected answer span
-          if (question1AnswerSpan) {
-            question1AnswerSpan.textContent = "";
-            setVisibility(question1AnswerSpan, false);
-          }
-          // Show Level 1 answers
-          setVisibility(answerLevel1, true);
-          // Hide the Back button (back at the start)
-          setVisibility(backButton, false);
-        }
-      });
-    } else {
-      console.error("Could not find element with ID 'backButton'");
-    }
+    //Event Listeners for Question Buttons (Back Functionality)
+    questionButton1?.addEventListener("click", () => {
+      if (currentLevel > 1) {
+        setVisibility(answerLevel2, false);
+        setVisibility(questionLevel2, false);
+        setVisibility(questionLevel1, true);
+        setVisibility(answerLevel1, true);
+        question1AnswerSpan.textContent = "";
+        setVisibility(question1AnswerSpan, false);
+        currentLevel = 1;
+      }
+    });
+
+    questionButton2?.addEventListener("click", () => {
+      if (currentLevel > 2) {
+        setVisibility(answerLevel3, false);
+        setVisibility(questionLevel3, false);
+        setVisibility(questionLevel2, true);
+        setVisibility(answerLevel2, true);
+        question2AnswerSpan.textContent = "";
+        setVisibility(question2AnswerSpan, false);
+        currentLevel = 2;
+      }
+    });
+    questionButton3?.addEventListener("click", () => {
+      if (currentLevel > 3) {
+        setVisibility(answerLevel3, false);
+        setVisibility(questionLevel3, false);
+        question3AnswerSpan.textContent = "";
+        setVisibility(question3AnswerSpan, false);
+        currentLevel = 3;
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      currentLevel = 1;
+      setVisibility(questionLevel1, true);
+      setVisibility(answerLevel1, true);
+      setVisibility(questionLevel2, false);
+      setVisibility(answerLevel2, false);
+      setVisibility(questionLevel3, false);
+      setVisibility(answerLevel3, false);
+      question1AnswerSpan.textContent = "";
+      setVisibility(question1AnswerSpan, false);
+      question2AnswerSpan.textContent = "";
+      setVisibility(question2AnswerSpan, false);
+      question3AnswerSpan.textContent = "";
+      setVisibility(question3AnswerSpan, false);
+    });
   });
 </script>
