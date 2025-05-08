@@ -3,7 +3,8 @@
     font-family: "Inter", sans-serif;
     padding: 24px;
     background-color: #f3f5f7;
-    color: #202020; /* text color */
+    color: #202020;
+    /* text color */
   }
 
   h1 {
@@ -27,11 +28,13 @@
 
   #questionButton {
     background-color: #ffffff;
-    border: none;
-    box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 24px;
     width: 100%;
+    margin: 0;
+    margin-bottom: 16px;
+    box-sizing: border-box;
 
     /* Text */
     font-size: 18px;
@@ -51,7 +54,7 @@
     margin-bottom: 16px;
     box-sizing: border-box;
 
-    /* text styling*/
+    /* Text */
     font-size: 18px;
     font-weight: 600;
     color: #202020;
@@ -59,18 +62,21 @@
     font-family: inherit;
   }
 
-  .answerButton:hover {
-    background-color: #f8f8f8;
-    border-color: #cccccc;
-  }
-
   .answerButton:hover,
   .answerButton:focus {
-    outline: none;
+    background-color: #f8f8f8;
+    border-color: #cccccc;
     box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
   }
 
-  .nonClicableButtonQuestion h3 {
+  .questionButton:hover h3,
+  .questionButton:focus h3 {
+    background-color: #f8f8f8;
+    border-color: #cccccc;
+    box-shadow: 0px 4px 8px 0px rgba(32, 32, 32, 0.16);
+  }
+
+  .questionButton h3 {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -137,6 +143,48 @@
     right: 24px;
   }
 
+  #resultsContainer {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 600;
+    color: #202020;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  #resultsContainer h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  #resultsContainer p {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  #hexVisual {
+    width: 96px;
+    height: 48px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+
+  #finalAnswer {
+    font-weight: 400px;
+    font-size: 16px;
+    color: #202020;
+    text-align: left;
+    font-family: inherit;
+  }
+
   #resetButton:hover {
     background-color: #ffffff;
     border-color: #411d56;
@@ -146,71 +194,80 @@
   /* Responsive adjustments for wider screens */
   @media (min-width: 768px) {
     .outer {
-      flex-direction: row; /* Side-by-side columns */
-      gap: 64px; /* Original gap */
-      align-items: flex-start; /* Align to top */
+      flex-direction: row;
+      /* Side-by-side columns */
+      gap: 64px;
+      /* Original gap */
+      align-items: flex-start;
+      /* Align to top */
     }
-    .nonClicableButtonQuestion h3 {
-      font-size: 18px; /* Restore original font size */
+    .questionButton h3 {
+      font-size: 18px;
+      /* Restore original font size */
     }
     .answerButton {
-      font-size: 18px; /* Restore original font size */
+      font-size: 18px;
+      /* Restore original font size */
     }
     .selectedAnswer {
-      font-size: 16px; /* Restore original font size */
+      font-size: 16px;
+      /* Restore original font size */
     }
   }
 </style>
 
-<!-- title -->
 <h1>Axis Token Picker</h1>
 <button id="resetButton">Reset</button>
-<!-- left side here -->
 <div id="outer" class="outer">
   <div id="left">
-    <div id="questionLevel1" class="visible nonClicableButtonQuestion">
+    <div id="questionLevel1" class="visible questionButton">
       <h3 id="questionButton1">
         <span class="questionText">What is the color used for?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
     </div>
 
-    <div id="questionLevel2" class="hidden nonClicableButtonQuestion">
+    <div id="questionLevel2" class="hidden questionButton">
       <h3 id="questionButton2">
         <span class="questionText"> What kind of text?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
     </div>
 
-    <div id="questionLevel3" class="hidden nonClicableButtonQuestion">
+    <div id="questionLevel3" class="hidden questionButton">
       <h3 id="questionButton3">
         <span class="questionText">What's the purpose of the text?</span>
         <span class="selectedAnswer hidden"></span>
       </h3>
     </div>
   </div>
-
-  <!-- right side here -->
   <div id="right" class="">
     <div id="answerLevel1" class="visible">
-      <button id="" class="answerButton">Text</button>
+      <button id="answer1-1" class="answerButton">Text</button>
     </div>
     <div id="answerLevel2" class="hidden">
-      <button id="" class="answerButton">Neutral</button>
-      <button id="" class="answerButton">Coloured</button>
-      <button id="" class="answerButton">Link</button>
+      <button id="answer2-1" class="answerButton">Neutral</button>
+      <button id="answer2-2" class="answerButton">Coloured</button>
+      <button id="answer2-3" class="answerButton">Link</button>
     </div>
     <div id="answerLevel3" class="hidden">
-      <button id="" class="answerButton">Default</button>
-      <button id="" class="answerButton">Subtle</button>
-      <button id="" class="answerButton">Disabled</button>
-      <button id="" class="answerButton">
+      <button id="answer3-1" class="answerButton">Default</button>
+      <button id="answer3-2" class="answerButton">Subtle</button>
+      <button id="answer3-3" class="answerButton">Disabled</button>
+      <button id="answer3-4" class="answerButton">
         Inversed (Used on bold backgrounds)
       </button>
+    </div>
+    <div id="resultsContainer" class="hidden">
+      <h3>Your token is:</h3>
+      <p>Token <span id="token"></span></p>
+      <p>Description <span id="tokenDescriptionDisplay"></span></p>
+      <div id="hexVisual"></div>
     </div>
   </div>
 </div>
 
+<script src="q&a.js"></script>
 <script>
   //Waits for the HTMl to fully load
   document.addEventListener("DOMContentLoaded", () => {
@@ -220,9 +277,9 @@
     const questionLevel3 = document.getElementById("questionLevel3");
 
     // Text answer blocks
-    const answerLevel1 = document.getElementById("answerLevel1");
-    const answerLevel2 = document.getElementById("answerLevel2");
-    const answerLevel3 = document.getElementById("answerLevel3");
+    const answerLevel1Container = document.getElementById("answerLevel1"); // Changed to Container
+    const answerLevel2Container = document.getElementById("answerLevel2"); // Changed to Container
+    const answerLevel3Container = document.getElementById("answerLevel3"); // Changed to Container
 
     // --- Question Buttons (for Back functionality) ---
     const questionButton1 = document.getElementById("questionButton1");
@@ -239,6 +296,15 @@
 
     const resetButton = document.getElementById("resetButton");
 
+    //get results container
+    const resultsContainer = document.getElementById("resultsContainer");
+    const tokenNameDisplay = document.getElementById("token");
+    const tokenHexDisplay = document.getElementById("tokenHex");
+    const tokenDescriptionDisplay = document.getElementById(
+      "tokenDescriptionDisplay"
+    ); //Added getElementById
+    const hexVisual = document.getElementById("hexVisual");
+
     // Helper function to manage visibility classes
     function setVisibility(element, show) {
       if (element) {
@@ -252,44 +318,284 @@
       }
     }
 
-    let currentLevel = 1; // Keep track of the current question level
-    const answerContainer = document.getElementById("right"); //get the container element
+    function createAnswerButtons(questionId) {
+      const answerData = answersData[questionId];
+      if (!answerData) return "";
 
-    //Combined Event Listener for Answer Levels
+      let buttonsHTML = "";
+      answerData.forEach((answer) => {
+        buttonsHTML += `<button id="${answer.id}" class="answerButton">${answer.text}</button>`;
+      });
+      return buttonsHTML;
+    }
+
+    function getTokenResult(selectedAnswers) {
+      if (!tokenData) return null; // Make sure tokenData is loaded
+
+      for (const token of tokenData) {
+        if (
+          token.question1 === selectedAnswers[0] &&
+          token.question2 === selectedAnswers[1] &&
+          token.question3 === selectedAnswers[2]
+        ) {
+          return token;
+        }
+      }
+      return null;
+    }
+
+    // --- Initialize App ---
+    function initializeApp() {
+      questionLevel1.querySelector(".questionText").textContent =
+        questionsData[0].text;
+      questionLevel2.querySelector(".questionText").textContent =
+        questionsData[1].text;
+      questionLevel3.querySelector(".questionText").textContent =
+        questionsData[2].text;
+
+      answerLevel1Container.innerHTML = createAnswerButtons("question1");
+      answerLevel2Container.innerHTML = createAnswerButtons("question2");
+      answerLevel3Container.innerHTML = createAnswerButtons("question3");
+
+      setVisibility(questionLevel1, true);
+      setVisibility(answerLevel1Container, true);
+      setVisibility(questionLevel2, false);
+      setVisibility(answerLevel2Container, false);
+      setVisibility(questionLevel3, false);
+      setVisibility(answerLevel3Container, false);
+      setVisibility(resultsContainer, false);
+
+      currentLevel = 1;
+      selectedAnswers = [];
+    }
+
+    let currentLevel = 1;
+    let selectedAnswers = [];
+    const answerContainer = document.getElementById("right");
+    const tokenData = [
+      {
+        text: {
+          default: {
+            $type: "color",
+            $value: "{primitives.color.neutral.950}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.neutral.950}",
+                dark: "{primitives.color.neutral.0}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-default",
+                },
+                variableId: "VariableID:1039:2337",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          subtle: {
+            $type: "color",
+            $value: "{primitives.color.neutral.800}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.neutral.800}",
+                dark: "{primitives.color.neutral.100}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-subtle",
+                },
+                variableId: "VariableID:1039:2338",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          disabled: {
+            $type: "color",
+            $value: "{primitives.color.neutral.400}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.neutral.400}",
+                dark: "{primitives.color.neutral.400}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-disabled",
+                },
+                variableId: "VariableID:1105:5350",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          inverse: {
+            $type: "color",
+            $value: "{primitives.color.neutral.0}",
+            $description:
+              "inverse is used for text applied on coloured background, other than the main neutral colour backgrounds",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.neutral.0}",
+                dark: "{primitives.color.neutral.950}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-inverse",
+                },
+                variableId: "VariableID:1218:5397",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          "link-visited": {
+            $type: "color",
+            $value: "{primitives.color.brand.primary.500}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.brand.primary.500}",
+                dark: "{primitives.color.brand.primary.200}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-link-visited",
+                },
+                variableId: "VariableID:3498:3819",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          error: {
+            $type: "color",
+            $value: "{primitives.color.status.red.300}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.status.red.300}",
+                dark: "{primitives.color.status.red.150}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-error",
+                },
+                variableId: "VariableID:3864:3694",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          success: {
+            $type: "color",
+            $value: "{primitives.color.status.green.400}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.status.green.400}",
+                dark: "{primitives.color.status.green.200}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-success",
+                },
+                variableId: "VariableID:3864:3695",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+          link: {
+            $type: "color",
+            $value: "{primitives.color.status.blue.300}",
+            $description: "",
+            $extensions: {
+              mode: {
+                light: "{primitives.color.status.blue.300}",
+                dark: "{primitives.color.status.blue.300}",
+              },
+              figma: {
+                codeSyntax: {
+                  WEB: "--axis-color-text-link",
+                },
+                variableId: "VariableID:4236:5216",
+                collection: {
+                  id: "VariableCollectionId:68:602",
+                  name: "color",
+                  defaultModeId: "68:2",
+                },
+              },
+            },
+          },
+        },
+      },
+    ];
+
+    initializeApp();
+
+    // --- Event Listeners ---
     answerContainer.addEventListener("click", function (event) {
       const clickedElement = event.target;
       if (clickedElement.classList.contains("answerButton")) {
         const selectedAnswerText = clickedElement.textContent;
         let targetQuestionSpan = null;
 
-        if (clickedElement.parentNode === answerLevel1) {
+        if (clickedElement.parentNode === answerLevel1Container) {
           targetQuestionSpan = question1AnswerSpan;
-          setVisibility(answerLevel1, false);
+          setVisibility(answerLevel1Container, false);
           setVisibility(questionLevel2, true);
-          setVisibility(answerLevel2, true);
+          setVisibility(answerLevel2Container, true);
           currentLevel = 2;
-        } else if (clickedElement.parentNode === answerLevel2) {
+          selectedAnswers[0] = selectedAnswerText;
+        } else if (clickedElement.parentNode === answerLevel2Container) {
           targetQuestionSpan = question2AnswerSpan;
-          setVisibility(answerLevel2, false);
+          setVisibility(answerLevel2Container, false);
           setVisibility(questionLevel3, true);
-          setVisibility(answerLevel3, true);
+          setVisibility(answerLevel3Container, true);
           currentLevel = 3;
-        } else if (clickedElement.parentNode === answerLevel3) {
+          selectedAnswers[1] = selectedAnswerText;
+        } else if (clickedElement.parentNode === answerLevel3Container) {
           targetQuestionSpan = question3AnswerSpan;
-          setVisibility(answerLevel3, false);
-          console.log("Final Selection Path:");
-          console.log(
-            "Level 1:",
-            question1AnswerSpan?.textContent.substring(2)
-          );
-          console.log(
-            "Level 2:",
-            question2AnswerSpan?.textContent.substring(2)
-          );
-          console.log(
-            "Level 3:",
-            question3AnswerSpan?.textContent.substring(2)
-          );
+          setVisibility(answerLevel3Container, false);
+          setVisibility(resultsContainer, true);
+          currentLevel = 4;
+          selectedAnswers[2] = selectedAnswerText;
+
+          const result = getTokenResult(selectedAnswers);
+          if (result) {
+            tokenNameDisplay.textContent = result.tokenName;
+            tokenHexDisplay.textContent = result.tokenHex;
+            tokenDescriptionDisplay.textContent =
+              result.tokenDescriptionDisplay;
+            hexVisual.style.backgroundColor = result.tokenHex;
+          } else {
+            console.log("No matching token found");
+          }
         }
 
         if (targetQuestionSpan) {
@@ -299,54 +605,49 @@
       }
     });
 
-    //Event Listeners for Question Buttons (Back Functionality)
     questionButton1?.addEventListener("click", () => {
       if (currentLevel > 1) {
-        setVisibility(answerLevel2, false);
+        setVisibility(answerLevel2Container, false);
         setVisibility(questionLevel2, false);
         setVisibility(questionLevel1, true);
-        setVisibility(answerLevel1, true);
+        setVisibility(answerLevel1Container, true);
+        setVisibility(resultsContainer, false);
         question1AnswerSpan.textContent = "";
         setVisibility(question1AnswerSpan, false);
         currentLevel = 1;
+        selectedAnswers = [];
       }
     });
 
     questionButton2?.addEventListener("click", () => {
       if (currentLevel > 2) {
-        setVisibility(answerLevel3, false);
+        setVisibility(answerLevel3Container, false);
         setVisibility(questionLevel3, false);
         setVisibility(questionLevel2, true);
-        setVisibility(answerLevel2, true);
+        setVisibility(answerLevel2Container, true);
+        setVisibility(resultsContainer, false);
         question2AnswerSpan.textContent = "";
         setVisibility(question2AnswerSpan, false);
         currentLevel = 2;
+        selectedAnswers = selectedAnswers.slice(0, 1);
       }
     });
     questionButton3?.addEventListener("click", () => {
       if (currentLevel > 3) {
-        setVisibility(answerLevel3, false);
+        setVisibility(answerLevel3Container, false);
         setVisibility(questionLevel3, false);
+        setVisibility(questionLevel2, true);
+        setVisibility(answerLevel2Container, true);
+        setVisibility(resultsContainer, false);
         question3AnswerSpan.textContent = "";
         setVisibility(question3AnswerSpan, false);
         currentLevel = 3;
+        selectedAnswers = selectedAnswers.slice(0, 2);
       }
     });
 
     resetButton.addEventListener("click", () => {
-      currentLevel = 1;
-      setVisibility(questionLevel1, true);
-      setVisibility(answerLevel1, true);
-      setVisibility(questionLevel2, false);
-      setVisibility(answerLevel2, false);
-      setVisibility(questionLevel3, false);
-      setVisibility(answerLevel3, false);
-      question1AnswerSpan.textContent = "";
-      setVisibility(question1AnswerSpan, false);
-      question2AnswerSpan.textContent = "";
-      setVisibility(question2AnswerSpan, false);
-      question3AnswerSpan.textContent = "";
-      setVisibility(question3AnswerSpan, false);
+      initializeApp();
     });
   });
 </script>
