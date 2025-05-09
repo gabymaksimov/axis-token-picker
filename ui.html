@@ -96,6 +96,18 @@
     font-family: inherit;
   }
 
+  /* Style for the currently active question level */
+  .activeQuestion > h3 {
+    border: 2px solid #562672;
+    background-color: #f8f0ff;
+    box-shadow: 0px 2px 6px rgba(86, 38, 114, 0.15);
+  }
+  .activeQuestion > h3:hover,
+  .activeQuestion > h3:focus {
+    border-color: #411d56; /* Darker purple on hover/focus for active */
+    background-color: #f5ebfe;
+  }
+
   .selectedAnswer {
     font-weight: 400;
     font-size: 16px;
@@ -191,7 +203,6 @@
     box-shadow: 0px 2px 4px 0px rgba(32, 32, 32, 0.08);
   }
 
-  /* Responsive adjustments for wider screens */
   @media (min-width: 768px) {
     .outer {
       flex-direction: row;
@@ -242,25 +253,13 @@
     </div>
   </div>
   <div id="right" class="">
-    <div id="answerLevel1" class="visible">
-      <button id="answer1-1" class="answerButton">Text</button>
-    </div>
-    <div id="answerLevel2" class="hidden">
-      <button id="answer2-1" class="answerButton">Neutral</button>
-      <button id="answer2-2" class="answerButton">Coloured</button>
-      <button id="answer2-3" class="answerButton">Link</button>
-    </div>
-    <div id="answerLevel3" class="hidden">
-      <button id="answer3-1" class="answerButton">Default</button>
-      <button id="answer3-2" class="answerButton">Subtle</button>
-      <button id="answer3-3" class="answerButton">Disabled</button>
-      <button id="answer3-4" class="answerButton">
-        Inversed (Used on bold backgrounds)
-      </button>
-    </div>
+    <div id="answerLevel1" class="visible"></div>
+    <div id="answerLevel2" class="hidden"></div>
+    <div id="answerLevel3" class="hidden"></div>
     <div id="resultsContainer" class="hidden">
       <h3>Your token is:</h3>
       <p>Token <span id="token"></span></p>
+      <p>Hex: <span id="tokenHex"></span></p>
       <p>Description <span id="tokenDescriptionDisplay"></span></p>
       <div id="hexVisual"></div>
     </div>
@@ -276,15 +275,19 @@
     const questionLevel2 = document.getElementById("questionLevel2");
     const questionLevel3 = document.getElementById("questionLevel3");
 
-    // Text answer blocks
-    const answerLevel1Container = document.getElementById("answerLevel1"); // Changed to Container
-    const answerLevel2Container = document.getElementById("answerLevel2"); // Changed to Container
-    const answerLevel3Container = document.getElementById("answerLevel3"); // Changed to Container
+    // Array of all question level containers for easier manipulation
+    const allQuestionLevelDivs = [
+      questionLevel1,
+      questionLevel2,
+      questionLevel3,
+    ];
 
-    // --- Question Buttons (for Back functionality) ---
-    const questionButton1 = document.getElementById("questionButton1");
-    const questionButton2 = document.getElementById("questionButton2");
-    const questionButton3 = document.getElementById("questionButton3");
+    // Text answer blocks
+    const answerLevel1Container = document.getElementById("answerLevel1");
+    const answerLevel2Container = document.getElementById("answerLevel2");
+    const answerLevel3Container = document.getElementById("answerLevel3");
+
+    const resetButton = document.getElementById("resetButton");
 
     // spans to show selected answers
     const question1AnswerSpan =
@@ -294,16 +297,17 @@
     const question3AnswerSpan =
       questionLevel3?.querySelector(".selectedAnswer");
 
-    const resetButton = document.getElementById("resetButton");
-
-    //get results container
+    //get final results container
     const resultsContainer = document.getElementById("resultsContainer");
     const tokenNameDisplay = document.getElementById("token");
     const tokenHexDisplay = document.getElementById("tokenHex");
     const tokenDescriptionDisplay = document.getElementById(
       "tokenDescriptionDisplay"
-    ); //Added getElementById
+    );
     const hexVisual = document.getElementById("hexVisual");
+
+    let currentLevel = 1;
+    let selectedAnswers = [];
 
     // Helper function to manage visibility classes
     function setVisibility(element, show) {
@@ -318,6 +322,19 @@
       }
     }
 
+    // Function to update the visual style of the active question
+    function activeQuestionStyle(activeQuestionDiv) {
+      allQuestionLevelDivs.forEach((div) => {
+        if (div) {
+          if (div === activeQuestionDiv) {
+            div.classList.add("activeQuestion");
+          } else {
+            div.classList.remove("activeQuestion");
+          }
+        }
+      });
+    }
+
     function createAnswerButtons(questionId) {
       const answerData = answersData[questionId];
       if (!answerData) return "";
@@ -329,33 +346,41 @@
       return buttonsHTML;
     }
 
-    function getTokenResult(selectedAnswers) {
-      if (!tokenData) return null; // Make sure tokenData is loaded
-
-      for (const token of tokenData) {
-        if (
-          token.question1 === selectedAnswers[0] &&
-          token.question2 === selectedAnswers[1] &&
-          token.question3 === selectedAnswers[2]
-        ) {
-          return token;
-        }
+    function getTokenResult(answersArray) {
+      if (!tokenData || tokenData.length === 0) {
+        console.warn("Token data is missing or empty.");
+        return null;
       }
-      return null;
+      return tokenData.find(
+        (token) =>
+          token.question1 === answersArray[0] &&
+          token.question2 === answersArray[1] &&
+          token.question3 === answersArray[2]
+      );
     }
 
     // --- Initialize App ---
     function initializeApp() {
-      questionLevel1.querySelector(".questionText").textContent =
-        questionsData[0].text;
-      questionLevel2.querySelector(".questionText").textContent =
-        questionsData[1].text;
-      questionLevel3.querySelector(".questionText").textContent =
-        questionsData[2].text;
+      if (questionsData && questionsData.length >= 3) {
+        questionLevel1.querySelector(".questionText").textContent =
+          questionsData[0].text;
+        questionLevel2.querySelector(".questionText").textContent =
+          questionsData[1].text;
+        questionLevel3.querySelector(".questionText").textContent =
+          questionsData[2].text;
+      } else {
+        console.error(
+          "questionsData is not properly defined or has insufficient items."
+        );
+      }
 
-      answerLevel1Container.innerHTML = createAnswerButtons("question1");
-      answerLevel2Container.innerHTML = createAnswerButtons("question2");
-      answerLevel3Container.innerHTML = createAnswerButtons("question3");
+      if (answersData) {
+        answerLevel1Container.innerHTML = createAnswerButtons("question1");
+        answerLevel2Container.innerHTML = createAnswerButtons("question2");
+        answerLevel3Container.innerHTML = createAnswerButtons("question3");
+      } else {
+        console.error("answersData is not properly defined.");
+      }
 
       setVisibility(questionLevel1, true);
       setVisibility(answerLevel1Container, true);
@@ -365,13 +390,21 @@
       setVisibility(answerLevel3Container, false);
       setVisibility(resultsContainer, false);
 
+      [question1AnswerSpan, question2AnswerSpan, question3AnswerSpan].forEach(
+        (span) => {
+          if (span) {
+            span.textContent = "";
+            setVisibility(span, false);
+          }
+        }
+      );
+
+      activeQuestionStyle(questionLevel1); // Set Q1 as active visually
+
       currentLevel = 1;
       selectedAnswers = [];
     }
 
-    let currentLevel = 1;
-    let selectedAnswers = [];
-    const answerContainer = document.getElementById("right");
     const tokenData = [
       {
         text: {
@@ -556,56 +589,96 @@
       },
     ];
 
-    initializeApp();
-
     // --- Event Listeners ---
+    const answerContainer = document.getElementById("right");
     answerContainer.addEventListener("click", function (event) {
       const clickedElement = event.target;
-      if (clickedElement.classList.contains("answerButton")) {
-        const selectedAnswerText = clickedElement.textContent;
+      const actualButton = clickedElement.closest(".answerButton");
+
+      if (actualButton) {
+        const selectedAnswerText = actualButton.textContent;
         let targetQuestionSpan = null;
 
-        if (clickedElement.parentNode === answerLevel1Container) {
+        if (
+          currentLevel === 1 &&
+          answerLevel1Container.contains(actualButton)
+        ) {
           targetQuestionSpan = question1AnswerSpan;
+          selectedAnswers[0] = selectedAnswerText;
+
           setVisibility(answerLevel1Container, false);
           setVisibility(questionLevel2, true);
           setVisibility(answerLevel2Container, true);
+          activeQuestionStyle(questionLevel2);
           currentLevel = 2;
-          selectedAnswers[0] = selectedAnswerText;
-        } else if (clickedElement.parentNode === answerLevel2Container) {
+        } else if (
+          currentLevel === 2 &&
+          answerLevel2Container.contains(actualButton)
+        ) {
           targetQuestionSpan = question2AnswerSpan;
+          selectedAnswers[1] = selectedAnswerText;
+
           setVisibility(answerLevel2Container, false);
           setVisibility(questionLevel3, true);
           setVisibility(answerLevel3Container, true);
+          activeQuestionStyle(questionLevel3);
           currentLevel = 3;
-          selectedAnswers[1] = selectedAnswerText;
-        } else if (clickedElement.parentNode === answerLevel3Container) {
+        } else if (
+          currentLevel === 3 &&
+          answerLevel3Container.contains(actualButton)
+        ) {
           targetQuestionSpan = question3AnswerSpan;
+          selectedAnswers[2] = selectedAnswerText;
+
           setVisibility(answerLevel3Container, false);
           setVisibility(resultsContainer, true);
           currentLevel = 4;
-          selectedAnswers[2] = selectedAnswerText;
 
           const result = getTokenResult(selectedAnswers);
           if (result) {
-            tokenNameDisplay.textContent = result.tokenName;
-            tokenHexDisplay.textContent = result.tokenHex;
+            tokenNameDisplay.textContent = result.tokenName || "N/A";
+            tokenHexDisplay.textContent = result.tokenHex || "N/A";
             tokenDescriptionDisplay.textContent =
-              result.tokenDescriptionDisplay;
-            hexVisual.style.backgroundColor = result.tokenHex;
+              result.tokenDescriptionDisplay || "No description available.";
+            hexVisual.style.backgroundColor = result.tokenHex || "transparent";
           } else {
-            console.log("No matching token found");
+            tokenNameDisplay.textContent = "Not found";
+            tokenHexDisplay.textContent = "N/A";
+            tokenDescriptionDisplay.textContent =
+              "No matching token. Check console & tokenData structure.";
+            hexVisual.style.backgroundColor = "transparent";
           }
+        } else {
+          console.warn(
+            "Button click detected, but not matched to current level/container. Current Level:",
+            currentLevel,
+            "Button Parent:",
+            actualButton.parentNode
+          );
         }
 
         if (targetQuestionSpan) {
           targetQuestionSpan.textContent = `- ${selectedAnswerText}`;
           setVisibility(targetQuestionSpan, true);
         }
+        console.log(
+          "Current level after click:",
+          currentLevel,
+          "Selected answers:",
+          selectedAnswers
+        );
+      } else {
+        console.log("Clicked element is not an answer button:", clickedElement);
       }
     });
 
-    questionButton1?.addEventListener("click", () => {
+    // --- Event Listeners for Clicking on Question Headers (to go back) ---
+    // Get question button elements by ID for adding event listeners
+    const questionButton1Elem = document.getElementById("questionButton1");
+    const questionButton2Elem = document.getElementById("questionButton2");
+    const questionButton3Elem = document.getElementById("questionButton3");
+
+    questionButton1Elem?.addEventListener("click", () => {
       if (currentLevel > 1) {
         setVisibility(answerLevel2Container, false);
         setVisibility(questionLevel2, false);
@@ -614,12 +687,13 @@
         setVisibility(resultsContainer, false);
         question1AnswerSpan.textContent = "";
         setVisibility(question1AnswerSpan, false);
+        activeQuestionStyle(questionLevel1);
         currentLevel = 1;
         selectedAnswers = [];
       }
     });
 
-    questionButton2?.addEventListener("click", () => {
+    questionButton2Elem?.addEventListener("click", () => {
       if (currentLevel > 2) {
         setVisibility(answerLevel3Container, false);
         setVisibility(questionLevel3, false);
@@ -628,11 +702,13 @@
         setVisibility(resultsContainer, false);
         question2AnswerSpan.textContent = "";
         setVisibility(question2AnswerSpan, false);
+        activeQuestionStyle(questionLevel2);
         currentLevel = 2;
         selectedAnswers = selectedAnswers.slice(0, 1);
       }
     });
-    questionButton3?.addEventListener("click", () => {
+
+    questionButton3Elem?.addEventListener("click", () => {
       if (currentLevel > 3) {
         setVisibility(answerLevel3Container, false);
         setVisibility(questionLevel3, false);
@@ -641,6 +717,7 @@
         setVisibility(resultsContainer, false);
         question3AnswerSpan.textContent = "";
         setVisibility(question3AnswerSpan, false);
+        activeQuestionStyle(questionLevel3);
         currentLevel = 3;
         selectedAnswers = selectedAnswers.slice(0, 2);
       }
@@ -649,5 +726,6 @@
     resetButton.addEventListener("click", () => {
       initializeApp();
     });
+    initializeApp();
   });
 </script>
