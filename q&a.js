@@ -1,3 +1,5 @@
+//object to hold all questions
+
 const questionsData = [
   {
     id: "question1",
@@ -16,8 +18,11 @@ const questionsData = [
 const answersData = {
   question1: [
     { id: "answer1-1", text: "Text" },
-    { id: "answer1-2", text: "Image" },
-    { id: "answer1-3", text: "Button" },
+    { id: "answer1-2", text: "Icon" },
+    { id: "answer1-3", text: "Background" },
+    { id: "answer1-1", text: "Border" },
+    { id: "answer1-1", text: "Data vis" },
+    { id: "answer1-1", text: "Shadow" },
   ],
   question2: [
     { id: "answer2-1", text: "Neutral" },
@@ -31,5 +36,3 @@ const answersData = {
     { id: "answer3-4", text: "Inversed (Used on bold backgrounds)" },
   ],
 };
-
-let tokenData = [];
