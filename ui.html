@@ -176,6 +176,12 @@
     margin-top: 8px;
   }
 
+  #tokenDescriptionDisplay {
+    color: #202020;
+    font-style: italic;
+    white-space: pre-wrap;
+  }
+
   #resetButton:hover {
     background-color: #ffffff;
     border-color: #411d56;
@@ -220,6 +226,9 @@
       </p>
       <p><strong>Hex Value:</strong> <span id="tokenHexDisplay"></span></p>
       <div id="hexVisual"></div>
+      <p>
+        <strong>Description:</strong> <span id="tokenDescriptionDisplay"></span>
+      </p>
     </div>
   </div>
 </div>
@@ -241,6 +250,7 @@
     const figmaSyntaxDisplay = document.getElementById("figmaSyntaxDisplay");
     const tokenHexDisplay = document.getElementById("tokenHexDisplay");
     const hexVisual = document.getElementById("hexVisual");
+    const tokenDescription = document.getElementById("tokenDescriptionDisplay");
 
     let currentQuestionId = null;
     let currentUserAnswerPath = [];
@@ -385,6 +395,8 @@
         tokenPathDisplay.textContent = details.tokenPath || "N/A";
         figmaSyntaxDisplay.textContent = details.figmaSyntax || "N/A";
         tokenHexDisplay.textContent = details.hexValue || "N/A";
+        tokenDescriptionDisplay.textContent =
+          details.description || "No description available.";
 
         if (
           details.hexValue &&

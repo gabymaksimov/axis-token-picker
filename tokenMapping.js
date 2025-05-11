@@ -1646,7 +1646,8 @@ const designTokens = {
       default: {
         $type: "color",
         $value: "{primitives.color.neutral.950}",
-        $description: "",
+        $description:
+          "Use for primary text, such as body copy and sentence case headers.",
         $extensions: {
           mode: {
             light: "{primitives.color.neutral.950}",
@@ -3640,30 +3641,19 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
   const joinedTokenPath = tokenReferencePath.join(".");
 
   let hexValue = "N/A"; // Default value
+  const description = rawTokenDefinition.$description || ""; // Get description
 
   if (rawTokenDefinition.$type === "color") {
     // Determine the value/alias for default/light mode (usually from $extensions.mode.light or $value)
     const defaultValueOrAlias =
       rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
     hexValue = getResolvedHexValue(defaultValueOrAlias, designTokens);
-  } /*else {
-    // For non-color tokens, resolve the $value or a potential light mode value.
-    const defaultValueOrAlias =
-      rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
-    hexValue = getResolvedHexValue(defaultValueOrAlias, designTokens);
-    // If it's still an error or not a direct value, use the raw $value if it's not an alias.
-    if (
-      hexValue === "Alias Resolution Error" &&
-      rawTokenDefinition.$value &&
-      !String(rawTokenDefinition.$value).startsWith("{")
-    ) {
-      hexValue = String(rawTokenDefinition.$value);
-    }
-  } */
+  }
 
   return {
     figmaSyntax: figmaSyntax,
     hexValue: hexValue,
     tokenPath: joinedTokenPath,
+    description: description,
   };
 }
