@@ -1,15 +1,3 @@
-/* const tokenMapping = [
-  {
-    answers: ["Text", "Neutral", "Default"], //user selects those set of answers
-    targetTokens: [
-      {
-        displayName: "default text color",
-        path: ["color", "text", "default"],
-      },
-    ],
-  },
-]; */
-
 const designTokens = {
   primitives: {
     color: {
@@ -3626,7 +3614,7 @@ const userAnswerPathToTokenPathMapping = {
   [createAnswerPathKey(["answer1-6"])]: ["shadow", "depth", "medium"],
 };
 
-// STEP 3: Main function to get the final processed token details
+// Main function to get the final processed token details
 function getTokenDetailsForUserPath(userAnswerIdSequence) {
   const userAnswerKey = createAnswerPathKey(userAnswerIdSequence);
   const tokenReferencePath = userAnswerPathToTokenPathMapping[userAnswerKey];
@@ -3658,7 +3646,7 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
     const defaultValueOrAlias =
       rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
     hexValue = getResolvedHexValue(defaultValueOrAlias, designTokens);
-  } else {
+  } /*else {
     // For non-color tokens, resolve the $value or a potential light mode value.
     const defaultValueOrAlias =
       rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
@@ -3671,12 +3659,11 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
     ) {
       hexValue = String(rawTokenDefinition.$value);
     }
-  }
+  } */
 
   return {
     figmaSyntax: figmaSyntax,
-    hexValue: hexValue, // Changed from hexLight/hexDark
+    hexValue: hexValue,
     tokenPath: joinedTokenPath,
-    // rawDefinition: rawTokenDefinition // Optionally include for debugging
   };
 }

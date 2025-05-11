@@ -1,5 +1,4 @@
 //object to hold all questions
-
 const allQuestions = [
   {
     id: "startingQuestion",
