@@ -92,7 +92,7 @@
     box-sizing: border-box;
 
     /* Text */
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #202020;
     text-align: left;
@@ -127,7 +127,7 @@
     background-color: #ffffff;
     color: #202020;
     border: 1px solid #562672;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
@@ -136,7 +136,7 @@
       border-color 0.3s ease;
     margin-top: 0;
     text-align: center;
-    width: 200px;
+    width: 150px;
     position: absolute;
     top: 24px;
     right: 24px;
@@ -152,7 +152,7 @@
     margin-bottom: 16px;
     box-sizing: border-box;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     color: #202020;
     text-align: left;
     font-family: inherit;
@@ -160,8 +160,7 @@
 
   #resultsContainer h3 {
     font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 16px;
+    font-weight: 400;
   }
 
   #resultsContainer p {
@@ -173,11 +172,14 @@
     width: 96px;
     height: 48px;
     border-radius: 4px;
+    border-color: #202020;
+    border: solid 1px;
     margin-top: 8px;
   }
 
   #tokenDescriptionDisplay {
     color: #202020;
+    font-weight: 400;
     font-style: italic;
     white-space: pre-wrap;
   }
@@ -193,21 +195,17 @@
       flex-direction: row;
       /* Side-by-side columns */
       gap: 64px;
-      /* Original gap */
       align-items: flex-start;
       /* Align to top */
     }
     .question-item {
       font-size: 18px;
-      /* Restore original font size */
     }
     .answerButton {
       font-size: 18px;
-      /* Restore original font size */
     }
     .selected-answer-text {
       font-size: 16px;
-      /* Restore original font size */
     }
   }
 </style>
@@ -250,11 +248,13 @@
     const figmaSyntaxDisplay = document.getElementById("figmaSyntaxDisplay");
     const tokenHexDisplay = document.getElementById("tokenHexDisplay");
     const hexVisual = document.getElementById("hexVisual");
-    const tokenDescription = document.getElementById("tokenDescriptionDisplay");
+    const tokenDescriptionDisplay = document.getElementById(
+      "tokenDescriptionDisplay"
+    );
 
-    let currentQuestionId = null;
-    let currentUserAnswerPath = [];
-    let currentQuestionHistory = [];
+    let currentQuestionId = null; // question ID currently displayed
+    let currentUserAnswerPath = []; //array to store sequence of answeer IDs
+    let currentQuestionHistory = []; //array to store questions already answered
 
     function findQuestionById(id) {
       // Ensure allQuestions is available
@@ -263,6 +263,18 @@
         return undefined;
       }
       return allQuestions.find((q) => q.id === id);
+    }
+
+    function setVisibility(element, show) {
+      if (element) {
+        if (show) {
+          element.classList.remove("hidden");
+          element.classList.add("visible");
+        } else {
+          element.classList.add("hidden");
+          element.classList.remove("visible");
+        }
+      }
     }
 
     function renderLeftPanel() {
@@ -283,7 +295,7 @@
         leftPanel.appendChild(historyItemDiv);
       });
 
-      // Render current question (if any)
+      // Render current question
       const currentQuestion = findQuestionById(currentQuestionId);
       if (currentQuestion) {
         const currentQuestionDiv = document.createElement("div");
@@ -346,13 +358,15 @@
         );
         return;
       }
-
+      //add answered Qs to history
       currentQuestionHistory.push({
         questionId: questionBeingAnswered.id,
         text: questionBeingAnswered.text,
         selectedAnswerId: answerId,
         selectedAnswerText: answerText,
       });
+
+      // add selected answer IDs to path
       currentUserAnswerPath.push(answerId);
 
       if (nextQuestion) {
@@ -410,20 +424,7 @@
       }
     }
 
-    function setVisibility(element, show) {
-      if (element) {
-        if (show) {
-          element.classList.remove("hidden");
-          element.classList.add("visible");
-        } else {
-          element.classList.add("hidden");
-          element.classList.remove("visible");
-        }
-      } else {
-        // console.warn("setVisibility called on a null element");
-      }
-    }
-
+    // Resets the application to its initial state.
     function resetApp() {
       currentUserAnswerPath = [];
       currentQuestionHistory = [];
