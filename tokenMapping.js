@@ -3588,31 +3588,54 @@ function getResolvedHexValue(valueOrAlias, allTokens) {
 }
 
 //Map user answer paths to token reference paths (arrays of keys for designTokens)
+
 const userAnswerPathToTokenPathMapping = {
+  // Text branch
+  // text->neutral
   [createAnswerPathKey(["answer1-1", "tb-q1-a1", "tb-q2-a1"])]: [
     "color",
     "text",
     "default",
   ],
-  [createAnswerPathKey(["answer1-1", "q1bt-1"])]: [
+  [createAnswerPathKey(["answer1-1", "tb-q1-a1", "tb-q2-a2"])]: [
     "color",
     "text",
-    "primary",
-    "default",
+    "subtle",
   ],
-  [createAnswerPathKey(["answer1-1", "q1bt-2"])]: [
+  [createAnswerPathKey(["answer1-1", "tb-q1-a1", "tb-q2-a3"])]: [
     "color",
     "text",
-    "secondary",
-    "onlight",
+    "disabled",
   ],
-  [createAnswerPathKey(["answer1-1", "q1bt-3", "qtafd-1"])]: [
+  [createAnswerPathKey(["answer1-1", "tb-q1-a1", "tb-q2-a4"])]: [
     "color",
     "text",
-    "accent",
+    "inverse",
+  ],
+  // text->link
+  [createAnswerPathKey(["answer1-1", "tb-q1-a2", "tb-q3-a1"])]: [
+    "color",
+    "text",
     "link",
   ],
-  [createAnswerPathKey(["answer1-6"])]: ["shadow", "depth", "medium"],
+  [createAnswerPathKey(["answer1-1", "tb-q1-a2", "tb-q3-a2"])]: [
+    "color",
+    "text",
+    "link-visited",
+  ],
+  // text->coloured
+  [createAnswerPathKey(["answer1-1", "tb-q1-a3", "tb-q4-a1"])]: [
+    "color",
+    "text",
+    "error",
+  ],
+  [createAnswerPathKey(["answer1-1", "tb-q1-a3", "tb-q4-a2"])]: [
+    "color",
+    "text",
+    "success",
+  ],
+
+  // Icon branch
 };
 
 // Main function to get the final processed token details

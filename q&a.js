@@ -43,6 +43,24 @@ const allQuestions = [
       { id: "tb-q2-a4", text: "Inversed" },
     ],
   },
+
+  {
+    id: "textBranch-q2-2",
+    text: "What's the purpose of the text?",
+    answers: [
+      { id: "tb-q3-a1", text: "Default" },
+      { id: "tb-q3-a2", text: "Visited" },
+    ],
+  },
+
+  {
+    id: "textBranch-q2-3",
+    text: "What's the purpose of the text?",
+    answers: [
+      { id: "tb-q4-a1", text: "Error" },
+      { id: "tb-q4-a2", text: "Success" },
+    ],
+  },
   // Ensure all 'nextQuestion' values correctly point to an existing 'id' in this array.
   // Add other branches (iconBranch-q1, backgroundBranch-q1 etc.) here if they exist.
 ];
