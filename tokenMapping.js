@@ -1646,7 +1646,8 @@ const designTokens = {
       default: {
         $type: "color",
         $value: "{primitives.color.neutral.950}",
-        $description: "",
+        $description:
+          "Use for primary text, such as body copy and sentence case headers.",
         $extensions: {
           mode: {
             light: "{primitives.color.neutral.950}",
@@ -3640,6 +3641,7 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
   const joinedTokenPath = tokenReferencePath.join(".");
 
   let hexValue = "N/A"; // Default value
+  const description = rawTokenDefinition.$description || ""; // Get description
 
   if (rawTokenDefinition.$type === "color") {
     // Determine the value/alias for default/light mode (usually from $extensions.mode.light or $value)
@@ -3665,5 +3667,6 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
     figmaSyntax: figmaSyntax,
     hexValue: hexValue,
     tokenPath: joinedTokenPath,
+    description: description,
   };
 }
