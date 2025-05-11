@@ -3648,20 +3648,7 @@ function getTokenDetailsForUserPath(userAnswerIdSequence) {
     const defaultValueOrAlias =
       rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
     hexValue = getResolvedHexValue(defaultValueOrAlias, designTokens);
-  } /*else {
-    // For non-color tokens, resolve the $value or a potential light mode value.
-    const defaultValueOrAlias =
-      rawTokenDefinition.$extensions?.mode?.light || rawTokenDefinition.$value;
-    hexValue = getResolvedHexValue(defaultValueOrAlias, designTokens);
-    // If it's still an error or not a direct value, use the raw $value if it's not an alias.
-    if (
-      hexValue === "Alias Resolution Error" &&
-      rawTokenDefinition.$value &&
-      !String(rawTokenDefinition.$value).startsWith("{")
-    ) {
-      hexValue = String(rawTokenDefinition.$value);
-    }
-  } */
+  }
 
   return {
     figmaSyntax: figmaSyntax,
