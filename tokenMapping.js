@@ -3636,6 +3636,43 @@ const userAnswerPathToTokenPathMapping = {
   ],
 
   // Icon branch
+  //coloured path
+  [createAnswerPathKey(["answer1-2", "ib-q1-a1", "ib-q2-a1"])]: [
+    "color",
+    "icon",
+    "info",
+  ],
+  [createAnswerPathKey(["answer1-2", "ib-q1-a1", "ib-q2-a2"])]: [
+    "color",
+    "icon",
+    "success",
+  ],
+  [createAnswerPathKey(["answer1-2", "ib-q1-a1", "ib-q2-a3"])]: [
+    "color",
+    "icon",
+    "error",
+  ],
+  [createAnswerPathKey(["answer1-2", "ib-q1-a1", "ib-q2-a4"])]: [
+    "color",
+    "icon",
+    "visited",
+  ],
+  //neutral path
+  [createAnswerPathKey(["answer1-2", "ib-q1-a2", "ib-q3-a1"])]: [
+    "color",
+    "icon",
+    "disabled",
+  ],
+  [createAnswerPathKey(["answer1-2", "ib-q1-a2", "ib-q3-a2"])]: [
+    "color",
+    "icon",
+    "default",
+  ],
+  [createAnswerPathKey(["answer1-2", "ib-q1-a2", "ib-q3-a3"])]: [
+    "color",
+    "icon",
+    "inverse",
+  ],
 };
 
 // Main function to get the final processed token details

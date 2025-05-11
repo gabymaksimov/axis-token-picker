@@ -10,14 +10,14 @@ const allQuestions = [
         id: "answer1-3",
         text: "Background",
         nextQuestion: "backgroundBranch-q1",
-      }, // Corrected from user's file which had answer1-1
-      { id: "answer1-4", text: "Border", nextQuestion: "borderBranch-q1" }, // Corrected from user's file which had answer1-2
+      },
+      { id: "answer1-4", text: "Border", nextQuestion: "borderBranch-q1" },
       {
         id: "answer1-5",
         text: "Data vis or Chart",
-        nextQuestion: "textBranch-q1",
-      }, // Corrected from user's file which had answer1-1
-      { id: "answer1-6", text: "Shadow", nextQuestion: "shadowbranch-q1" }, // Corrected from user's file which had answer1-2
+        nextQuestion: "shadowbranch-q1",
+      },
+      { id: "answer1-6", text: "Shadow", nextQuestion: "shadowbranch-q1" },
     ],
   },
 
@@ -61,6 +61,34 @@ const allQuestions = [
       { id: "tb-q4-a2", text: "Success" },
     ],
   },
-  // Ensure all 'nextQuestion' values correctly point to an existing 'id' in this array.
-  // Add other branches (iconBranch-q1, backgroundBranch-q1 etc.) here if they exist.
+
+  // icon branch
+  // key: ib- icon branch, q1- question 1, a1- answer 1
+  {
+    id: "iconBranch-q1",
+    text: "Is the icon coloured or neutral?",
+    answers: [
+      { id: "ib-q1-a1", text: "Coloured", nextQuestion: "iconBranch-q2-1" },
+      { id: "ib-q1-a2", text: "Neutral", nextQuestion: "iconBranch-q2-2" },
+    ],
+  },
+  {
+    id: "iconBranch-q2-1",
+    text: "What semantic meaning does the colour of the icon have?",
+    answers: [
+      { id: "ib-q2-a1", text: "Information" },
+      { id: "ib-q2-a2", text: "Succcess" },
+      { id: "ib-q2-a3", text: "Error" },
+      { id: "ib-q2-a4", text: "Link" },
+    ],
+  },
+  {
+    id: "iconBranch-q2-2",
+    text: "What is the icon used for?",
+    answers: [
+      { id: "ib-q3-a1", text: "Something disabled" },
+      { id: "ib-q3-a2", text: "With default text" },
+      { id: "ib-q3-a3", text: "inverse (on bold background)" },
+    ],
+  },
 ];
