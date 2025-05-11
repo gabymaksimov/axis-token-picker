@@ -3673,6 +3673,121 @@ const userAnswerPathToTokenPathMapping = {
     "icon",
     "inverse",
   ],
+
+  // Background path
+  //brand
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a1",
+  ])]: ["color", "background", "brand", "default"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a2",
+  ])]: ["color", "background", "brand", "hover"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a3",
+  ])]: ["color", "background", "brand", "pressed"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a4",
+  ])]: ["color", "background", "brand", "subtle"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a5",
+  ])]: ["color", "background", "brand", "subtle-hover"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a6",
+  ])]: ["color", "background", "brand", "subtle-pressed"],
+  [createAnswerPathKey([
+    "answer1-3",
+    "bb-q1-a1",
+    "bb-q2-a2",
+    "bb-q3-a1",
+    "bb-q4-1-a7",
+  ])]: ["color", "background", "brand", "subtle-hover"],
+
+  //information NOT FINISHED
+  [createAnswerPathKey(["answer1-3", "bb-q1-a1", "bb-q2-a2", "bb-q3-a2"])]: [
+    ["color", "background", "information", "default"],
+    ["color", "background", "information", "subtle"],
+  ],
+
+  //border branch
+  //neutral
+  [createAnswerPathKey(["answer1-4", "bOb-q1-a1", "bOb-q2-1-a1"])]: [
+    "color",
+    "border",
+    "disabled",
+  ],
+  [createAnswerPathKey(["answer1-4", "bOb-q1-a1", "bOb-q2-1-a3"])]: [
+    "color",
+    "border",
+    "accent-1",
+  ],
+  /*
+  [createAnswerPathKey(["answer1-4", "bOb-q1-a1", "bOb-q1-a4"])]: [
+    "color",
+    "border",
+    "",
+  ], */
+
+  //coloured
+  [createAnswerPathKey(["answer1-4", "bOb-q1-a2", "bOb-q2-2-a1"])]: [
+    "color",
+    "border",
+    "focus",
+  ],
+  [createAnswerPathKey([
+    "answer1-4",
+    "bOb-q1-a2",
+    "bOb-q2-2-a2",
+    "bOb-q2-3-1-a1",
+  ])]: ["color", "border", "brand", "default"],
+  [createAnswerPathKey([
+    "answer1-4",
+    "bOb-q1-a2",
+    "bOb-q2-2-a2",
+    "bOb-q2-3-1-a2",
+  ])]: ["color", "border", "brand", "hover"],
+  [createAnswerPathKey([
+    "answer1-4",
+    "bOb-q1-a2",
+    "bOb-q2-2-a2",
+    "bOb-q2-3-1-a3",
+  ])]: ["color", "border", "brand", "pressed"],
+  //error
+  [createAnswerPathKey([
+    "answer1-4",
+    "bOb-q1-a2",
+    "bOb-q2-2-a3",
+    "bOb-q2-3-2-a1",
+  ])]: ["color", "border", "error", "default"],
+  [createAnswerPathKey([
+    "answer1-4",
+    "bOb-q1-a2",
+    "bOb-q2-2-a3",
+    "bOb-q2-3-2-a2",
+  ])]: ["color", "border", "error", "hover"],
 };
 
 // Main function to get the final processed token details
